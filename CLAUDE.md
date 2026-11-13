@@ -1,0 +1,12 @@
+# 팀 규칙
+
+@AGENTS.md
+
+1. 작업 전에 `specs/common.md`와 지시받은 역할 파일을 읽고, 그 파일의 "수정 가능" 범위에서만 작업한다.
+2. 공용 파일(`types/`, `lib/config.ts`, `app/layout.tsx`, `app/globals.css`, `package.json`)과 다른 역할의 폴더는 수정하지 말고 "통합 담당 요청 사항"으로 정리한다.
+3. 단계마다 `npm run lint`, `npm run build`를 통과시킨다.
+4. 임계값, 모델명, 제한값 같은 숫자는 `lib/config.ts`에 모은다.
+5. 외부 API(AI, DB) 호출이 실패해도 화면이 깨지지 않게 기본 응답을 돌려준다.
+6. 브라우저 전용 API는 `"use client"` 컴포넌트에서만, 무거운 라이브러리는 동적 import.
+7. 서버 전용 키를 쓰는 파일은 `import "server-only"`.
+8. 끝나면 만든 파일, 내가 확인할 것, 남은 문제를 짧게 정리한다.

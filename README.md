@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 해커톤 템플릿
 
-## Getting Started
+Next.js(App Router) + TypeScript + Tailwind 기반 해커톤용 템플릿입니다. 서비스 기능·화면은 포함하지 않습니다.
 
-First, run the development server:
+## 시작하기
 
 ```bash
+git clone <저장소 URL>
+cd <폴더명>
+npm install
+cp .env.example .env.local   # 값 채우기 (.env.local은 커밋되지 않음)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+http://localhost:3000/api/health 에서 환경 변수 등록 여부를 확인할 수 있습니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 브랜치 규칙
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `feature/*` → `develop` → `main` 순서로 PR을 통해서만 병합
+- `main`, `develop`에 **직접 push 금지**
+- PR을 올리면 CI(`build` job: `npm ci` → `npm run lint` → `npm run build`)가 실행됩니다. 통과해야 병합합니다.
 
-## Learn More
+## 환경 변수
 
-To learn more about Next.js, take a look at the following resources:
+| 이름 | 설명 |
+| --- | --- |
+| `SUPABASE_URL` | Supabase 프로젝트 URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase 서비스 롤 키 (서버 전용, 절대 클라이언트에 노출 금지) |
+| `ANTHROPIC_API_KEY` | Claude API 키 (서버 전용) |
+| `CLAUDE_MODEL` | 사용할 Claude 모델 ID |
+| `TEST_MESSAGE` | 배포 확인용 문자열. `/api/health`의 `message`로 그대로 반환됨 |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`/api/health`는 값 없이 등록 여부(`true`/`false`)만 반환합니다. (`TEST_MESSAGE`만 예외)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 역할
 
-## Deploy on Vercel
+| 역할 | 담당 | 이름 |
+| --- | --- | --- |
+| A | 기반·통합 | |
+| B | 상태·로직 (API, DB, AI) | |
+| C | 핵심 화면 | |
+| D | 주변 화면 → 제출물 | |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 공용 파일 (A만 수정)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `types/`
+- `lib/config.ts`
+- `app/layout.tsx`
+- `app/globals.css`
+- `package.json`
+
+다른 역할이 공용 파일 수정이 필요하면 직접 고치지 말고 "통합 담당 요청 사항"으로 A에게 전달합니다.
+
+## 당일 일정
+
+| 시간 | 내용 |
+| --- | --- |
+| 13:30 | 킥오프 |
+| 14:10 | 구현 시작 |
+| 15:00 | 첫 전체 연결 |
+| 16:15 | 기능 동결 |
+| 16:40 | main merge |
+| 17:15 | 제출 |
